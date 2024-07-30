@@ -68,16 +68,17 @@
 - name: Check for xDnsServer Powershell module
   win_psmodule:
     name: xDnsServer
+    repository: PSGallery
     state: present
 
 - name: Configure DNS Forwarders
   win_dsc:
-    resource_name: xDnsServerSetting
-    Name: DNSServerProperties
-    NoRecursion: false
-    Forwarders:
+    resource_name: xDnsServerForwarder
+    IsSingleInstance: "yes"
+    UseRootHint: false
+    IPAddresses:
+      - "1.1.1.1"
       - "8.8.8.8"
-      - "8.8.4.4"
 
 - name: Ensure that admin@cyberloop.local is present as Domain Admin
   win_domain_user:

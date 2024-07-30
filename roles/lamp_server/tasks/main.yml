@@ -10,8 +10,6 @@
   file:
     path: /var/www/cyberloop
     state: directory
-    owner: cyberloop
-    group: cyberloop
   become: yes
 
 - name: Copy configuration file into apache's sites-available directory

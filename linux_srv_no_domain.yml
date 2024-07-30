@@ -1,6 +1,6 @@
 ---
 - name: cyberloop.local Linux server outside the domain configuration
-  hosts: linux_srv_outside
+  hosts: ubuntu_outside
   
   roles:
   - linux_server_basic
