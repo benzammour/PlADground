@@ -1,40 +1,141 @@
-# Active Directory Lab
+<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+<a id="readme-top"></a>
+<!-- Thanks to the Best-README-Template team for the skeleton for this README. Check them out: https://github.com/othneildrew/Best-README-Template -->
+
+
+<!-- ABOUT THE PROJECT -->
+## pladground
+
+An active directory playground/lab for penetration testing and learning.
+
 
 This lab is made of five virtual machines:
-- **Domain controller** running on Windows Server 2019
-- **Member server** with a Microsoft ISS web-server and a Microsoft SQL server
-- **Windows workstation** running on Windows 10
-- **Linux server inside the domain** running on Ubuntu 20.04 LTS
-- **Linux server outside the domain** running on Ubuntu 20.04 LTS
+- **Domain Controller** running Windows Server 2019
+- **Member Server** running IIS and MSSQL
+- **Windows Workstation** running on Windows 10
+- **Linux Server inside the domain** running Ubuntu 20.04 LTS
+- **Linux Server outside the domain** running Ubuntu 20.04 LTS
 
-The lab setup is automated using vagrant and ansible automation tools.
+<!-- GETTING STARTED -->
+## Getting Started
 
-### Requirements
+To start the lab on your machines the following prerequisites exist.
 
-So far the lab has only been tested on a linux machine, but it should work as well on macOS. Ansible has some problems with Windows hosts so I don't know about that.
+### Prerequisites
 
-For the setup to work properly you need to install:
-- **vagrant** from their official site [vagrant](https://www.vagrantup.com/). The version you can install through your favourite package manager (apt, yum, ...) is probably not the latest one.
-- **ansible** following the extensive guide on their website [ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html).
+In order to run this setup you need `vagrant` and `ansible`.
+Depending on your host machine, you can install them via:
 
-Vagrant will be needed to provision the virtual machines and ansible to automate their configuration.
+* `vagrant` on debian-based systems. Otherwise refer to [vagrant's own page](https://developer.hashicorp.com/vagrant/downloads).
+  ```sh
+  wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+  sudo apt update && sudo apt install vagrant
+  ```
+* `ansible`, also refer to [their site](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#pipx-install)
+  ```sh
+  $ pipx install --include-deps ansible
+  ```
 
-### Setup
+### Installation
 
-The default domain will be cyberloop/local, on the subnet 192.168.56.1/24 and each machine has only been allocated with 1024MB of memory. If you want to change some of these settings some small modifications are required inside the configuration files.
+To download the lab and install it, follow the following steps:
 
-To have the lab up and running the two commands you need to run are:
-- `vagrant up`
-- `ansible-playbook -i hosts labsetup.yml`
+1. Clone the repo
+   ```sh
+   git clone https://github.com/Benzammour/PlADground
+   ```
+3. Download and Run Base VMs
+   ```sh
+   vagrant up
+   ```
+4. Run `ansible` playbook
+   ```sh
+   ansible-playbook -vv -i hosts labsetup.yml
+   ```
 
-If you run into some problems while running the main playbook, you can also the indipendent playbooks:
-- `ansible-playbook -i hosts domain_controller.yml`
-- `ansible-playbook -i hosts member_server.yml`
-- `ansible-playbook -i hosts win_workstation.yml`
-- `ansible-playbook -i hosts linux_srv_domain.yml`
-- `ansible-playbook -i hosts linux_srv_no_domain.yml`
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-### Thanks to
 
-This repo is based on the work of [jckhmr](https://github.com/jckhmr/adlab) and [kkolk](https://github.com/kkolk/mssql).
+<!-- USAGE EXAMPLES -->
+## Usage
+
+To download and use lab, you have to clone the repo and run both vagrant and ansible.
+tl;dr: Follow the following steps:
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/Benzammour/PlADground
+   ```
+3. Download and Run Base VMs
+   ```sh
+   vagrant up
+   ```
+4. Run `ansible` playbook
+   ```sh
+   ansible-playbook -vv -i hosts labsetup.yml
+   ```
+
+To run different portions of the lab or for debugging purposes, run the playbooks independently:
+```sh
+ansible-playbook -i hosts domain_controller.yml
+ansible-playbook -i hosts member_server.yml
+ansible-playbook -i hosts win_workstation.yml
+ansible-playbook -i hosts linux_srv_domain.yml
+ansible-playbook -i hosts linux_srv_no_domain.yml
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- Issues and Features -->
+## Issues and Features
+
+See the [open issues](https://github.com/benzammour/pladground/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTACT -->
+## Contact
+
+Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+
+Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+
+* [alebov](https://github.com/alebov) for original [AD-lab repo](https://github.com/alebov/AD-lab)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
