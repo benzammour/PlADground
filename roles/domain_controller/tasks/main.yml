@@ -1,10 +1,3 @@
-- name: Ensure chocolatey is installed
-  win_chocolatey:
-    name:
-    - chocolatey
-    - chocolatey-core.extension
-    state: present
-
 - name: disable enhanced exit codes
   win_chocolatey_feature:
     name: useEnhancedExitCodes
@@ -51,6 +44,7 @@
   win_reboot:
   when: check_domain.changed
 
+# Param 'log_path' is deprecated. See the module docs for more information. This feature will be removed from ansible.windows in a release after 2022-07-01. Deprecation warnings can be disabled by  setting deprecation_warnings=False in ansible.cfg.
 - name: Ensure the server is a domain controller
   win_domain_controller:
     dns_domain_name: cyberloop.local
@@ -154,7 +148,7 @@
 
 - name: Create a Test Group ...
   win_domain_group:
-    name: JustATestDemo
+    name: HoneypotGroup
     scope: global
     path: DC=cyberloop,DC=local
     state: present

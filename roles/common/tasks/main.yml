@@ -1,3 +1,69 @@
+- name: Install NuGet if necessary
+  ansible.windows.win_shell: |
+    $providers = (Get-PackageProvider | Where-Object -Property Name -Match nuget)
+    if ($providers -eq $null) {
+      Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope AllUsers
+    }
+  changed_when: False
+
+# See https://github.com/ansible-collections/community.windows/issues/340
+- name: Install upgraded PowershellGet if necessary
+  ansible.windows.win_shell: |
+    $module = Get-Module -ListAvailable -Name 'PowerShellGet' | Sort-Object -Property Version -Descending | Select-Object -First 1
+    if ($module -eq $null -or $module.Version -le [Version]'1.0.0.1') {
+        Install-Module -Name 'PowerShellGet' -Repository 'PSGallery' -Scope 'AllUsers' -AllowClobber -Force -Confirm:$false
+    }
+  changed_when: False
+
+- name: ensure .NET Framework 4.8 requirement is satisfied for Chocolatey CLI v2.0.0+
+  block:
+  - name: install Chocolatey CLI v1.4.0
+    win_chocolatey:
+      name: 'chocolatey'
+      state: present
+      version: '1.4.0'
+
+  - name: Reboot the host to complete .NET Framework 4.8 install
+    ansible.windows.win_reboot:
+
+  - name: Install dotnetfx
+    win_chocolatey:
+      name: dotnetfx
+      version: '4.8.0.20220524'
+      source: https://community.chocolatey.org/api/v2/
+      state: present
+
+  - name: Reboot the host to complete .NET Framework 4.8 install
+    ansible.windows.win_reboot:
+
+  - name: Install netfx-4.8
+    win_chocolatey:
+      name: netfx-4.8
+      version: '4.8.0.20220524'
+      source: https://community.chocolatey.org/api/v2/
+      state: present
+
+  - name: Reboot the host to complete .NET Framework 4.8 install
+    ansible.windows.win_reboot:
+
+  - name: install Chocolatey CLI v2.0.0+ when .NET Framework 4.8 dependency is met
+    win_chocolatey:
+      name:
+      - chocolatey
+      - chocolatey-core.extension
+      state: latest
+
+  - name: Reboot the host to complete .NET Framework 4.8 install
+    ansible.windows.win_reboot:
+
+
+# EXAMPLE
+- name: Install or update an existing PSWindowsUpdate module to the newest version
+  community.windows.win_psmodule:
+    name: PSWindowsUpdate
+    state: latest
+    accept_license: True
+
 - name: Windows | Check for xRemoteDesktopAdmin Powershell module
   win_psmodule:
     name: xRemoteDesktopAdmin
