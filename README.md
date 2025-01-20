@@ -1,9 +1,7 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a id="readme-top"></a>
-<!-- Thanks to the Best-README-Template team for the skeleton for this README. Check them out: https://github.com/othneildrew/Best-README-Template -->
 
 
-<!-- ABOUT THE PROJECT -->
 ## pladground
 
 An active directory playground/lab for penetration testing and learning.
@@ -118,16 +116,16 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Your Name - [@benzammour](https://infosec.exchange/@benzammour)
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/benzammour/pladground](https://github.com/benzammour/pladground)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
