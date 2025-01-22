@@ -15,54 +15,26 @@
     }
   changed_when: False
 
-- name: ensure .NET Framework 4.8 requirement is satisfied for Chocolatey CLI v2.0.0+
-  block:
-  - name: install Chocolatey CLI v1.4.0
-    win_chocolatey:
-      name: 'chocolatey'
-      state: present
-      version: '1.4.0'
+- name: Install Choco
+  ansible.windows.win_shell: |
+    Set-ExecutionPolicy Bypass -Scope Process -Force
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+    iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+  register: choco_ch
 
-  - name: Reboot the host to complete .NET Framework 4.8 install
-    ansible.windows.win_reboot:
+- name: Reboot the host
+  ansible.windows.win_reboot:
+  when: choco_ch.changed
 
-  - name: Install dotnetfx
-    win_chocolatey:
-      name: dotnetfx
-      version: '4.8.0.20220524'
-      source: https://community.chocolatey.org/api/v2/
-      state: present
-
-  - name: Reboot the host to complete .NET Framework 4.8 install
-    ansible.windows.win_reboot:
-
-  - name: Install netfx-4.8
-    win_chocolatey:
-      name: netfx-4.8
-      version: '4.8.0.20220524'
-      source: https://community.chocolatey.org/api/v2/
-      state: present
-
-  - name: Reboot the host to complete .NET Framework 4.8 install
-    ansible.windows.win_reboot:
-
-  - name: install Chocolatey CLI v2.0.0+ when .NET Framework 4.8 dependency is met
-    win_chocolatey:
-      name:
-      - chocolatey
-      - chocolatey-core.extension
-      state: latest
-
-  - name: Reboot the host to complete .NET Framework 4.8 install
-    ansible.windows.win_reboot:
-
-
-# EXAMPLE
-- name: Install or update an existing PSWindowsUpdate module to the newest version
-  community.windows.win_psmodule:
-    name: PSWindowsUpdate
+- name: Sanity Check Chocolatey CLI after .NET Framework 4.8 dependency is met
+  win_chocolatey:
+    name:
+    - chocolatey
+    - chocolatey-core.extension
     state: latest
-    accept_license: True
+
+- name: Reboot the host
+  ansible.windows.win_reboot:
 
 - name: Windows | Check for xRemoteDesktopAdmin Powershell module
   win_psmodule:

@@ -62,7 +62,7 @@
     change: Users
 
 - name: Add member server to cyberloop.local
-  win_domain_membership:
+  microsoft.ad.membership:
     dns_domain_name: cyberloop.local
     domain_admin_user: Administrator@cyberloop.local
     domain_admin_password: StrongPass123!

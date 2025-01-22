@@ -7,6 +7,25 @@
   - domain_controller
 
   tasks:
+  - name: disable enhanced exit codes
+    win_chocolatey_feature:
+      name: useEnhancedExitCodes
+      state: disabled
+
+  - name: Install multiple packages sequentially
+    win_chocolatey:
+      name: '{{ item }}'
+      state: present
+    with_items:
+    - notepadplusplus
+    - putty
+    - python
+    - git
+    - 7zip
+    - sysinternals
+    - wget
+    - pstools
+
   - name: Check for xDnsServer Powershell module
     win_psmodule:
       name: xDnsServer
@@ -23,79 +42,82 @@
         - "8.8.8.8"
 
   - name: Ensure that admin@cyberloop.local is present as Domain Admin
-    win_domain_user:
+    microsoft.ad.user:
       name: admin
       password: StrongPass123!
       password_never_expires: yes
       state: present
       path: cn=Users,dc=CYBERLOOP,dc=local
       groups:
-        - Domain Admins
+        set:
+          - Domain Admins
 
   - name: Ensure that bob@cyberloop.local is present in OU cn=Users,dc=CYBERLOOP,dc=local
-    win_domain_user:
+    microsoft.ad.user:
       name: bob
       password: StrongPass123!
       password_never_expires: yes
       state: present
       path: cn=Users,dc=CYBERLOOP,dc=local
       groups:
-        - Users
+        set:
+          - Users
 
   - name: Ensure that alice@cyberloop.local is present in OU cn=Users,dc=CYBERLOOP,dc=local
-    win_domain_user:
+    microsoft.ad.user:
       name: alice
       password: StrongPass123!
       password_never_expires: yes
       state: present
       path: cn=Users,dc=CYBERLOOP,dc=local
       groups:
-        - Users
+        set:
+          - Users
 
   - name: Create AllTeams group
-    win_domain_group:
+    microsoft.ad.group:
       name: allTeams
       scope: global
       path: DC=cyberloop,DC=local
       state: present
 
   - name: Create DBAOracle
-    win_domain_group:
+    microsoft.ad.group:
       name: DBAOracle
       scope: global
       path: DC=cyberloop,DC=local
       state: present
 
   - name: Create DBASQLServer
-    win_domain_group:
+    microsoft.ad.group:
       name: DBASQLServer
       scope: global
       path: DC=cyberloop,DC=local
       state: present
 
   - name: Create DBAMongo group
-    win_domain_group:
+    microsoft.ad.group:
       name: DBAMongo
       scope: global
       path: DC=cyberloop,DC=local
       state: present
 
   - name: Create DBARedis group
-    win_domain_group:
+    microsoft.ad.group:
       name: DBARedis
       scope: global
       path: DC=cyberloop,DC=local
       state: present
 
   - name: Create DBAEnterprise Group ...
-    win_domain_group:
+    microsoft.ad.group:
       name: DBAEnterprise
       scope: global
       path: DC=cyberloop,DC=local
       state: present
 
   - name: Create a Test Group ...
-    win_domain_group:
+    microsoft.ad.group:
       name: HoneypotGroup
       scope: global
       path: DC=cyberloop,DC=local
