@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
     dc.vm.network "private_network", ip: "192.168.56.10"
     dc.vm.network :forwarded_port, guest: 3389, host: 23389, id: "msrdp"
     dc.vm.network :forwarded_port, guest: 5985, host: 25985, id: "winrm"
-    dc.vm.provision "shell", path:"ConfigureRemotingForAnsible.ps1"
+    dc.vm.provision "shell", path:"scripts/ConfigureRemotingForAnsible.ps1"
   end
 
   config.vm.define "win_server" do |win_server|
@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
     win_server.vm.network "private_network", ip: "192.168.56.11"
     win_server.vm.network :forwarded_port, guest: 3389, host: 33389, id: "msrdp"
     win_server.vm.network :forwarded_port, guest: 5985, host: 35985, id: "winrm"
-    win_server.vm.provision "shell", path:"ConfigureRemotingForAnsible.ps1"
+    win_server.vm.provision "shell", path:"scripts/ConfigureRemotingForAnsible.ps1"
   end
 
   config.vm.define "win_workstation" do |win_workstation|
@@ -39,12 +39,12 @@ Vagrant.configure("2") do |config|
     win_workstation.vm.boot_timeout = 600
     win_workstation.vm.graceful_halt_timeout = 600
     win_workstation.winrm.retry_limit = 30
-    win_workstation.winrm.retry_delay = 10    
+    win_workstation.winrm.retry_delay = 10
     win_workstation.vm.box = "StefanScherer/windows_10"
     win_workstation.vm.network "private_network", ip: "192.168.56.12"
     win_workstation.vm.network :forwarded_port, guest: 3389, host: 43389, id: "msrdp"
     win_workstation.vm.network :forwarded_port, guest: 5985, host: 45985, id: "winrm"
-    win_workstation.vm.provision "shell", path:"ConfigureRemotingForAnsible.ps1"
+    win_workstation.vm.provision "shell", path:"scripts/ConfigureRemotingForAnsible.ps1"
   end
 
   config.vm.define "ubuntu_domain" do |ubuntu_domain|
